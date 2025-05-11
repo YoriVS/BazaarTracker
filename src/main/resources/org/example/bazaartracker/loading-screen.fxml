@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="loadingRootPane" alignment="CENTER" spacing="25"
+      prefWidth="600" prefHeight="400"
+      styleClass="root-pane" stylesheets="@styles.css"
+      xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.example.bazaartracker.controller.LoadingScreen">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <ImageView fitWidth="120" fitHeight="120" pickOnBounds="true" preserveRatio="true">
+        <image>
+            <Image url="@BazaarTracker.ico"/>
+        </image>
+        <VBox.margin>
+            <Insets bottom="10"/>
+        </VBox.margin>
+    </ImageView>
+
+    <Label text="Bazaar Tracker"
+           styleClass="title-label"
+           alignment="CENTER" />
+
+    <Label fx:id="loadingStatusLabel" text="Loading..."
+           styleClass="loading-text-label"
+           alignment="CENTER"/>
+
+    <ProgressBar fx:id="progressBar" prefWidth="350" progress="0.0" styleClass="progress-bar"/>
+    <Label fx:id="versionLabel" text="v1.0.0" styleClass="version-label" alignment="CENTER">
+        <VBox.margin>
+            <Insets top="15"/>
+        </VBox.margin>
+    </Label>
+
+</VBox>

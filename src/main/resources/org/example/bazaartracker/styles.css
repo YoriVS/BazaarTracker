@@ -1,0 +1,346 @@
+/* --- General Styles - Trader Theme --- */
+.root-pane {
+    -fx-background-color: #0D1B2A; /* Very dark, slightly desaturated blue */
+    -fx-font-family: "Roboto", "Arial", sans-serif; /* Clear, modern sans-serif */
+}
+
+.title-label {
+    -fx-font-size: 26px;
+    -fx-text-fill: #40E0D0; /* Main Teal from logo, slightly desaturated for primary titles */
+    -fx-font-weight: normal; /* Traders often prefer less bold, cleaner titles */
+}
+
+.loading-text-label {
+    -fx-font-size: 15px;
+    -fx-text-fill: #A0BCC8; /* Muted teal/blue for secondary text */
+}
+
+.version-label {
+    -fx-font-size: 11px;
+    -fx-text-fill: #70A0B0; /* Softer, desaturated teal for version */
+}
+
+.progress-bar .bar {
+    -fx-background-color: #33FFC7; /* Bright Teal for progress, stands out */
+}
+
+.progress-bar .track {
+    -fx-background-color: #1B2F45; /* Darker track for contrast */
+}
+
+/* --- Menu Screen Specific Styles --- */
+.search-field {
+    -fx-prompt-text-fill: #70A0B0;
+    -fx-text-fill: #D0E0E8; /* Light text for input */
+    -fx-background-color: #1B2F45; /* Dark input field */
+    -fx-border-color: #2A4A68; /* Subtle border */
+    -fx-border-width: 1px;
+    -fx-border-radius: 3px; /* Sharper corners */
+    -fx-background-radius: 3px;
+    -fx-font-size: 14px;
+    -fx-effect: innershadow(gaussian, rgba(0,0,0,0.3), 3, 0, 0, 1); /* Subtle depth */
+}
+
+.item-list-view {
+    -fx-background-color: #142536; /* Darker list background */
+    -fx-border-color: #2A4A68;
+    -fx-border-width: 1px;
+}
+
+.item-list-view .list-cell {
+    -fx-text-fill: #B0CDE0; /* Readable text for list items */
+    -fx-background-color: transparent;
+    -fx-padding: 7px 10px;
+    -fx-font-size: 13px;
+}
+
+.item-list-view .list-cell:filled:selected, .item-list-view .list-cell:filled:selected:focused {
+    -fx-background-color: #33FFC7; /* Bright Teal for selection */
+    -fx-text-fill: #0D1B2A; /* Dark text on selection for contrast */
+}
+
+.item-list-view .list-cell:filled:hover {
+    -fx-background-color: #20384F; /* Subtle hover */
+    -fx-text-fill: #E0F0F8;
+}
+
+.action-button {
+    -fx-background-color: #28A7A1; /* Slightly more desaturated / darker teal for buttons */
+    -fx-text-fill: #E8F8F8;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 18px;
+    -fx-background-radius: 3px; /* Sharper buttons */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 2);
+}
+
+.action-button:hover {
+    -fx-background-color: #33CABA; /* Brighter on hover */
+}
+
+.action-button-secondary {
+    -fx-background-color: transparent;
+    -fx-text-fill: #40E0D0;
+    -fx-border-color: #40E0D0;
+    -fx-border-width: 1.5px;
+    -fx-font-size: 13px;
+    -fx-padding: 7px 16px;
+    -fx-background-radius: 3px;
+    -fx-border-radius: 3px;
+}
+
+.action-button-secondary:hover {
+    -fx-background-color: rgba(64, 224, 208, 0.1); /* Faint teal background on hover */
+    -fx-text-fill: #50F0E0;
+}
+
+
+/* --- Info Section Styles (Menu and ItemInfo) --- */
+.info-section-box {
+    -fx-background-color: #102030; /* Slightly distinct background for sections */
+    -fx-border-color: #20384F;
+    -fx-border-width: 1px;
+    -fx-background-radius: 4px; /* Slightly rounded, but still crisp */
+    -fx-border-radius: 4px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 3);
+}
+
+.section-header-label {
+    -fx-font-size: 16px;
+    -fx-text-fill: #40E0D0; /* Teal for headers */
+    -fx-font-weight: normal;
+    -fx-padding: 0 0 3px 0;
+    -fx-border-width: 0 0 1px 0;
+    -fx-border-color: #2A4A68; /* Subtle underline for section headers */
+}
+
+.section-header-label-small {
+    -fx-font-size: 13px;
+    -fx-text-fill: #A0BCC8;
+    -fx-font-weight: bold;
+}
+
+.data-label {
+    -fx-font-size: 13px;
+    -fx-text-fill: #A0BCC8; /* Muted color for labels */
+}
+
+.data-value-label {
+    -fx-font-size: 13px;
+    -fx-text-fill: #D0E8F0; /* Brighter color for actual data */
+    -fx-font-weight: bold;
+}
+
+.important-value {
+    -fx-text-fill: #33FFC7; /* Bright Teal for key values like profit */
+    -fx-font-size: 14px;
+}
+
+.total-cost-label, .total-profit-label {
+    -fx-font-size: 15px;
+    -fx-text-fill: #33FFC7;
+    -fx-font-weight: bold;
+}
+
+
+/* --- ItemInfo Screen Specific Styles --- */
+.controls-section-box {
+    -fx-background-color: #0D1B2A; /* Match root pane or very subtle darker shade */
+    -fx-border-color: #20384F;
+    -fx-border-width: 1px 0 0 0; /* Top border to separate */
+}
+
+.control-label {
+    -fx-font-size: 13px;
+    -fx-text-fill: #A0BCC8;
+}
+
+.choice-box {
+    -fx-background-color: #1B2F45;
+    -fx-mark-color: #33FFC7;
+    -fx-border-color: #2A4A68;
+    -fx-border-width: 1px;
+    -fx-border-radius: 3px;
+    -fx-background-radius: 3px;
+}
+.choice-box .label {
+    -fx-text-fill: #D0E8F0;
+    -fx-padding: 5px 8px 5px 8px;
+}
+.choice-box .context-menu {
+    -fx-background-color: #142536;
+    -fx-border-color: #2A4A68;
+    -fx-border-width: 1px;
+}
+.choice-box .menu-item:focused {
+    -fx-background-color: #33FFC7;
+}
+.choice-box .menu-item:focused .label {
+    -fx-text-fill: #0D1B2A;
+}
+
+.date-picker {
+    -fx-background-color: #1B2F45;
+    -fx-border-color: #2A4A68;
+    -fx-border-width: 1px;
+    -fx-border-radius: 3px;
+    -fx-background-radius: 3px;
+}
+.date-picker .text-field {
+    -fx-text-fill: #D0E8F0;
+    -fx-background-color: transparent; /* Handled by parent */
+}
+.date-picker .arrow-button {
+    -fx-background-color: #1B2F45;
+    -fx-background-radius: 0 3px 3px 0;
+}
+.date-picker .arrow-button .arrow {
+    -fx-background-color: #33FFC7;
+}
+.date-picker-popup {
+    -fx-background-color: #142536;
+    -fx-border-color: #33FFC7;
+}
+.date-picker-popup .month-year-pane {
+    -fx-background-color: #0D1B2A;
+}
+.date-picker-popup .day-cell {
+    -fx-text-fill: #A0BCC8;
+}
+.date-picker-popup .day-cell:hover {
+    -fx-background-color: #20384F;
+}
+.date-picker-popup .day-cell.selected {
+    -fx-background-color: #33FFC7;
+    -fx-text-fill: #0D1B2A;
+}
+
+.navigation-button { /* For 'Home' button etc. */
+    -fx-background-color: #20384F;
+    -fx-text-fill: #B0CDE0;
+    -fx-font-size: 13px;
+    -fx-padding: 7px 16px;
+    -fx-background-radius: 3px;
+    -fx-border-color: #2A4A68;
+    -fx-border-width: 1px;
+}
+
+.navigation-button:hover {
+    -fx-background-color: #2A4A68;
+    -fx-text-fill: #D0E8F0;
+}
+
+.check-box .box {
+    -fx-background-color: #1B2F45;
+    -fx-border-color: #2A4A68;
+    -fx-border-radius: 2px;
+    -fx-background-radius: 2px;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: #33FFC7;
+}
+
+.check-box .text {
+    -fx-fill: #A0BCC8; /* Matches data-label */
+    -fx-font-size: 13px;
+}
+
+/* --- ScrollBar (More discrete for trader style) --- */
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track{
+    -fx-background-color: #0D1B2A; /* Match root background */
+    -fx-border-color: #1B2F45; /* Subtle border */
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+}
+
+.scroll-bar:horizontal .increment-button ,
+.scroll-bar:horizontal .decrement-button,
+.scroll-bar:vertical .increment-button ,
+.scroll-bar:vertical .decrement-button {
+    -fx-background-color: #1B2F45;
+    -fx-background-radius: 0;
+    -fx-padding: 5px;
+}
+
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow{
+    -fx-shape: " "; /* Can be made more subtle or custom SVG */
+    -fx-padding: 3px;
+    -fx-background-color: #70A0B0;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #2A4A68; /* Less prominent thumb */
+    -fx-background-insets: 0;
+    -fx-background-radius: 0; /* Sharp edges for thumb */
+}
+.scroll-bar:horizontal .thumb:hover,
+.scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #33FFC7; /* Highlight thumb on hover */
+}
+
+/* Consider adding styles for charts if you use them,
+   e.g., .chart-plot-background, .axis, .chart-series-line */
+
+.chart-plot-background {
+    -fx-background-color: #102030; /* Slightly lighter than main bg for chart area */
+}
+
+.axis {
+    -fx-tick-label-fill: #A0BCC8;
+    -fx-tick-mark-fill: #A0BCC8;
+    -fx-border-color: #2A4A68; /* Color for X and Y axis lines */
+}
+
+.chart-title {
+    -fx-text-fill: #40E0D0;
+    -fx-font-size: 14px;
+}
+
+.chart-legend {
+    -fx-background-color: #142536;
+    -fx-text-fill: #A0BCC8;
+    -fx-border-color: #2A4A68;
+    -fx-padding: 5px;
+}
+/* --- Popup Styles --- */
+.popup-pane {
+    -fx-background-color: #102030; /* Dark section background from Trader Style */
+    -fx-padding: 20px;
+    -fx-border-color: #2A4A68; /* Subtle border */
+    -fx-border-width: 1px;
+    -fx-background-radius: 5px; /* Consistent with info-section-box */
+    -fx-border-radius: 5px;
+}
+
+.popup-message-label {
+    -fx-font-size: 15px; /* Slightly larger than data-label for emphasis */
+    -fx-text-fill: #D0E8F0; /* Bright/readable text */
+    -fx-wrap-text: true; /* Good for longer messages */
+}
+
+/* You can reuse .action-button or define a specific one if needed.
+   Let's assume .action-button is suitable. If not, create .popup-action-button: */
+/*
+.popup-action-button {
+    -fx-background-color: #28A7A1;
+    -fx-text-fill: #E8F8F8;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 18px;
+    -fx-background-radius: 3px;
+}
+
+.popup-action-button:hover {
+    -fx-background-color: #33CABA;
+}
+*/
+
+/* Example for a line chart series */
+.default-color0.chart-series-line { -fx-stroke: #33FFC7; } /* Main teal for first series */
+.default-color1.chart-series-line { -fx-stroke: #FF8C00; } /* Contrasting color like dark orange for another */
+.default-color0.chart-line-symbol { -fx-background-color: #33FFC7, white; }
+.default-color1.chart-line-symbol { -fx-background-color: #FF8C00, white; }

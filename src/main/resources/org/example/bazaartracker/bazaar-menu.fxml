@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:id="rootMenuPane" alignment="TOP_CENTER" maxHeight="600.0" maxWidth="800.0" minHeight="600.0" minWidth="800.0" prefHeight="600.0" prefWidth="800.0" spacing="10" styleClass="root-pane" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.bazaartracker.controller.MenuController">
+    <padding>
+        <Insets bottom="15" left="20" right="20" top="15" />
+    </padding>
+
+    <children>
+        <Label alignment="CENTER" maxWidth="Infinity" styleClass="title-label" text="List of Items">
+            <VBox.margin>
+                <Insets bottom="8" />
+            </VBox.margin>
+        </Label>
+
+        <TextField fx:id="searchField" maxWidth="450" onKeyPressed="#enterKeyPressed" promptText="Search For Item" styleClass="search-field" />
+
+        <HBox spacing="20" VBox.vgrow="ALWAYS">
+            <children>
+                <VBox minWidth="300" prefWidth="350" spacing="10" HBox.hgrow="SOMETIMES">
+                    <children>
+                        <ListView fx:id="itemsList" styleClass="item-list-view" VBox.vgrow="ALWAYS" />
+                        <Button maxWidth="Infinity" onAction="#chooseButtonClicked" styleClass="action-button" text="Choose" />
+                    </children>
+                </VBox>
+
+                <VBox alignment="TOP_LEFT" spacing="10" styleClass="info-section-box" HBox.hgrow="ALWAYS">
+                    <padding>
+                        <Insets bottom="12" left="15" right="15" top="12" />
+                    </padding>
+                    <children>
+                        <Label fx:id="itemName" alignment="CENTER" maxWidth="Infinity" styleClass="section-header-label" text="Select an Item">
+                            <VBox.margin>
+                                <Insets bottom="8" />
+                            </VBox.margin>
+                        </Label>
+
+                        <GridPane fx:id="selectedItemDetailsGrid" hgap="10" styleClass="data-grid-padding" vgap="8">
+                            <columnConstraints>
+                                <ColumnConstraints halignment="LEFT" hgrow="NEVER" minWidth="90" />
+                                <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="80" />
+                                <ColumnConstraints halignment="LEFT" hgrow="NEVER" minWidth="90" />
+                                <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="80" />
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints minHeight="25" prefHeight="30" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="25" prefHeight="30" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="25" prefHeight="30" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="25" prefHeight="30" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="25" prefHeight="30" vgrow="SOMETIMES" />
+                            </rowConstraints>
+
+                            <Label styleClass="data-label" text="Buy Price:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                            <Label fx:id="buyPrice" styleClass="data-value-label" text="N/A" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                            <Label styleClass="data-label" text="Buy In Week:" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                            <Label fx:id="buyMovingWeek" styleClass="data-value-label" text="N/A" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+
+                            <Label styleClass="data-label" text="Sell Price:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                            <Label fx:id="sellPrice" styleClass="data-value-label" text="N/A" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                            <Label styleClass="data-label" text="Sell In Week:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                            <Label fx:id="sellMovingWeek" styleClass="data-value-label" text="N/A" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+
+                            <Label styleClass="data-label" text="Buy Orders:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                            <Label fx:id="buyOrder" styleClass="data-value-label" text="N/A" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                            <Label styleClass="data-label" text="Sell Orders:" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                            <Label fx:id="sellOrder" styleClass="data-value-label" text="N/A" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+
+                            <Label styleClass="data-label" text="ELO:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                            <Label fx:id="elo" styleClass="data-value-label" text="N/A" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+                            <Label styleClass="data-label" text="Profit:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                            <Label fx:id="profit" styleClass="data-value-label" text="N/A" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="4" />
+                        </GridPane>
+
+                        <Region VBox.vgrow="ALWAYS" />
+
+                        <Button fx:id="viewDetailsButton" maxWidth="Infinity" onAction="#viewDetailsButtonClicked" styleClass="action-button-secondary" text="View Full Details" />
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+
+        <VBox alignment="TOP_LEFT" minHeight="117.0" prefHeight="257.0" prefWidth="760.0" spacing="5" styleClass="info-section-box" VBox.vgrow="NEVER"> <padding>
+            <Insets bottom="10" left="15" right="15" top="10" />
+        </padding>
+            <VBox.margin>
+                <Insets top="10" />
+            </VBox.margin>
+            <children>
+                <Label styleClass="section-header-label" text="Best 5 (Quick View):" />
+                <GridPane hgap="10" prefHeight="36.0" prefWidth="729.0" styleClass="data-grid-padding" vgap="3">
+                    <columnConstraints>
+                        <ColumnConstraints halignment="RIGHT" hgrow="NEVER" minWidth="25" />
+                        <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10" prefHeight="18" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10" prefHeight="18" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10" prefHeight="18" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10" prefHeight="18" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10" prefHeight="18" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <Label styleClass="data-label" text="1:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <Label fx:id="topNr1" styleClass="data-value-label" text="N/A" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                        <Label styleClass="data-label" text="2:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                        <Label fx:id="topNr2" styleClass="data-value-label" text="N/A" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                        <Label styleClass="data-label" text="3:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                        <Label fx:id="topNr3" styleClass="data-value-label" text="N/A" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                        <Label styleClass="data-label" text="4:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                        <Label fx:id="topNr4" styleClass="data-value-label" text="N/A" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+                        <Label styleClass="data-label" text="5:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                        <Label fx:id="topNr5" styleClass="data-value-label" text="N/A" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                    </children>
+                </GridPane>
+            </children>
+        </VBox>
+    </children>
+</VBox>
