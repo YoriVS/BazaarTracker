@@ -1,4 +1,4 @@
-package org.example.bazaartracker;
+package org.example.bazaartracker.handler;
 
 import java.net.HttpURLConnection;
 import java.net.URL;

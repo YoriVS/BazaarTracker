@@ -1,12 +1,15 @@
 package org.example.bazaartracker.crafting;
 
 import org.example.bazaartracker.item.QuickStatus;
+import org.json.simple.JSONObject;
+
+import static org.example.bazaartracker.controller.LoadingScreen.bazaarObject;
 
 public class Ingredient {
-    String name;
-    int amount;
-    double instaBuyPrice;
-    double buyOrder;
+    private String name;
+    private int amount;
+    private double instaBuyPrice;
+    private double buyOrder;
 
     public Ingredient(String name, int amount, double instaBuyPrice, double buyOrder) {
         this.name = name;
@@ -20,8 +23,8 @@ public class Ingredient {
         return "Ingredient [name=" + name + ", amount=" + amount + "]";
     }
 
-    public String getName() {
-        return name.replaceAll("_", " ");
+    public String getID() {
+        return name;
     }
 
     public int getAmount() {
@@ -36,6 +39,12 @@ public class Ingredient {
         return buyOrder;
     }
 
+    public String getName() {
+        return name.replaceAll("_", " ");
+    }
+
+    public void setName(String name) {}
+
     public void setAmount(int amount) {
         this.amount = amount;
     }
@@ -48,5 +57,21 @@ public class Ingredient {
         this.buyOrder = buyOrder;
     }
 
+    public static Ingredient createIngredient(String name) {
+        if (name.isEmpty()) {
+            return null;
+        }
+        String[] splitName = name.split(":");
+        JSONObject rawProducts = (JSONObject) bazaarObject.get("products");
+        JSONObject itemData = (JSONObject) rawProducts.get(splitName[0]);
+        JSONObject jsonQuickStatus = (JSONObject) itemData.get("quick_status");
+        QuickStatus quickStatus = QuickStatus.createQuickStatus(jsonQuickStatus);
+
+        String id = splitName[0];
+        int number = Integer.parseInt(splitName[1]);
+        double instaBuyPrice = quickStatus.buyPrice * number;
+        double buyOrderPrice = quickStatus.sellPrice * number;
+        return new Ingredient(id, number, instaBuyPrice, buyOrderPrice);
+    }
 
 }

@@ -13,4 +13,6 @@ module org.example.bazaartracker {
     opens org.example.bazaartracker.item to javafx.fxml;
     exports org.example.bazaartracker.controller;
     opens org.example.bazaartracker.controller to javafx.fxml;
+    exports org.example.bazaartracker.handler;
+    opens org.example.bazaartracker.handler to javafx.fxml;
 }
