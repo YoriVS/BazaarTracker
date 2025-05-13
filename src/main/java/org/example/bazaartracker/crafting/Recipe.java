@@ -3,15 +3,15 @@ package org.example.bazaartracker.crafting;
 import java.util.ArrayList;
 
 public class Recipe {
-    Ingredient A1;
-    Ingredient A2;
-    Ingredient A3;
-    Ingredient B1;
-    Ingredient B2;
-    Ingredient B3;
-    Ingredient C1;
-    Ingredient C2;
-    Ingredient C3;
+    private final Ingredient A1;
+    private final Ingredient A2;
+    private final Ingredient A3;
+    private final Ingredient B1;
+    private final Ingredient B2;
+    private final Ingredient B3;
+    private final Ingredient C1;
+    private final Ingredient C2;
+    private final Ingredient C3;
 
     public Recipe(Ingredient A1, Ingredient A2, Ingredient A3,
                   Ingredient B1, Ingredient B2, Ingredient B3,
@@ -54,6 +54,7 @@ public class Recipe {
     public Ingredient getC3() {
         return C3;
     }
+
     public ArrayList<Ingredient> getIngredients() {
         ArrayList<Ingredient> ingredients = new ArrayList<>();
         ingredients.add(A1);

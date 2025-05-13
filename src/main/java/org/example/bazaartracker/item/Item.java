@@ -3,10 +3,10 @@ package org.example.bazaartracker.item;
 import java.util.ArrayList;
 
 public class Item {
-    public static ArrayList<Item> itemList = new ArrayList<>();
-    public String name;
-    public ArrayList<ItemData> itemData;
-    public QuickStatus quickStatus;
+    private static final ArrayList<Item> itemList = new ArrayList<>();
+    private String name;
+    private ArrayList<ItemData> itemData;
+    private QuickStatus quickStatus;
 
     public Item(String name, ArrayList<ItemData> itemData, QuickStatus quickStatus) {
         this.name = name;
@@ -24,5 +24,29 @@ public class Item {
 
     public static ArrayList<Item> getItemList() {
         return itemList;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public ArrayList<ItemData> getItemData() {
+        return itemData;
+    }
+
+    public QuickStatus getQuickStatus() {
+        return quickStatus;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setItemData(ArrayList<ItemData> itemData) {
+        this.itemData = itemData;
+    }
+
+    public void setQuickStatus(QuickStatus quickStatus) {
+        this.quickStatus = quickStatus;
     }
 }

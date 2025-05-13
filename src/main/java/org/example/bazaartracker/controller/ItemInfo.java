@@ -1,37 +1,22 @@
 package org.example.bazaartracker.controller;
 
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import org.example.bazaartracker.Bazaar;
-import org.example.bazaartracker.Instance;
 import org.example.bazaartracker.Screen;
 import org.example.bazaartracker.crafting.Ingredient;
 import org.example.bazaartracker.crafting.Recipe;
+import org.example.bazaartracker.handler.DatasetHandler;
+import org.example.bazaartracker.handler.JSONHandler;
 import org.example.bazaartracker.item.Item;
 import org.example.bazaartracker.item.ItemData;
-import org.example.bazaartracker.item.QuickStatus;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.CategoryAxis;
-import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.json.simple.JSONObject;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Ellipse2D;
-import java.io.*;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
@@ -126,14 +111,14 @@ public class ItemInfo {
         graphTimeRangeChoiceBox.getItems().add("Month");
         graphTimeRangeChoiceBox.getItems().add("Always");
         itemNameLabel.setText(currentItem.toString());
-        buyPriceLabel.setText(currentItem.quickStatus.buyPrice + "$");
-        buyOrdersLabel.setText(currentItem.quickStatus.buyOrders + "");
-        buyMovingWeekLabel.setText(currentItem.quickStatus.buyMovingWeek + "");
-        sellPriceLabel.setText(currentItem.quickStatus.sellPrice + "$");
-        sellOrdersLabel.setText(currentItem.quickStatus.sellOrders + "");
-        sellMovingWeekLabel.setText(currentItem.quickStatus.sellMovingWeek + "");
-        profitLabel.setText(currentItem.quickStatus.profit + "$");
-        eloLabel.setText(currentItem.quickStatus.elo + "");
+        buyPriceLabel.setText(Screen.createPrettyNumber(currentItem.getQuickStatus().getBuyPrice()) + "$");
+        buyOrdersLabel.setText(Screen.createPrettyNumber(currentItem.getQuickStatus().getBuyOrders()));
+        buyMovingWeekLabel.setText(Screen.createPrettyNumber(currentItem.getQuickStatus().getBuyMovingWeek()));
+        sellPriceLabel.setText(Screen.createPrettyNumber(currentItem.getQuickStatus().getSellPrice()) + "$");
+        sellOrdersLabel.setText(Screen.createPrettyNumber(currentItem.getQuickStatus().getSellOrders()));
+        sellMovingWeekLabel.setText(Screen.createPrettyNumber(currentItem.getQuickStatus().getSellMovingWeek()));
+        profitLabel.setText(Screen.createPrettyNumber(currentItem.getQuickStatus().getProfit()) + "$");
+        eloLabel.setText(Screen.createPrettyNumber(currentItem.getQuickStatus().getELO()));
         craftFlipCheckBox.setSelected(false);
     }
 
@@ -149,10 +134,10 @@ public class ItemInfo {
         }
 
         if (!craftFlipCheckBox.isSelected()) {
-            profit = currentItem.quickStatus.profit;
-            cost = currentItem.quickStatus.sellPrice;
+            profit = currentItem.getQuickStatus().getProfit();
+            cost = currentItem.getQuickStatus().getSellPrice();
         } else {
-            profit = currentItem.quickStatus.buyPrice - Double.parseDouble(buyOrderTotalCraftCostLabel.getText());
+            profit = currentItem.getQuickStatus().getBuyPrice() - Double.parseDouble(buyOrderTotalCraftCostLabel.getText());
             cost = Double.parseDouble(buyOrderTotalCraftCostLabel.getText());
         }
 
@@ -163,7 +148,7 @@ public class ItemInfo {
                     .doubleValue();
 
         } else {
-            double totalAmount = BigDecimal.valueOf(Math.ceil(Double.parseDouble(moneyToInvestTextField.getText()) / cost))
+            double totalAmount = BigDecimal.valueOf(Math.ceil(Screen.createNumberBasedOnLetter(moneyToInvestTextField.getText()) / cost))
                     .setScale(2, RoundingMode.HALF_EVEN)
                     .doubleValue();
             totalProfit = BigDecimal.valueOf(profit * totalAmount)
@@ -176,8 +161,9 @@ public class ItemInfo {
                         cost * Double.parseDouble(bulkAmountTextField.getText()))
                 .setScale(2, RoundingMode.HALF_EVEN)
                 .doubleValue();
-        bulkTotalProfitLabel.setText("Total Profit for Amount: " + (totalProfit + "$"));
-        moneyToInvestTextField.setText(totalCost + "");
+
+        bulkTotalProfitLabel.setText("Total Profit for Amount: " + (Screen.createPrettyNumber(totalProfit) + "$"));
+        moneyToInvestTextField.setText(Screen.createPrettyNumber(totalCost));
     }
 
     @FXML
@@ -192,7 +178,7 @@ public class ItemInfo {
 
     @FXML
     private void handleHomeButtonAction() {
-        Screen.changeScreen("bazaar-menu");
+        Screen.changeScreen("bazaar-menu", Bazaar.currentStage);
     }
 
     @FXML
@@ -214,8 +200,8 @@ public class ItemInfo {
     }
 
     private void craft() {
-        JSONObject recipes = loadJsonObject("/JSON/InternalNameMappings.json");
-        JSONObject item = (JSONObject) recipes.get(currentItem.name);
+        JSONObject recipes = JSONHandler.loadJsonObject("/JSON/InternalNameMappings.json");
+        JSONObject item = (JSONObject) recipes.get(currentItem.getName());
         if (item == null) {
             return;
         }
@@ -232,15 +218,15 @@ public class ItemInfo {
         Ingredient C3 = null;
 
         if (recipe != null) {
-            A1 = createIngredient( (String) recipe.get("A1"));
-            A2 = createIngredient( (String) recipe.get("A2"));
-            A3 = createIngredient( (String) recipe.get("A3"));
-            B1 = createIngredient( (String) recipe.get("B1"));
-            B2 = createIngredient( (String) recipe.get("B2"));
-            B3 = createIngredient( (String) recipe.get("B3"));
-            C1 = createIngredient( (String) recipe.get("C1"));
-            C2 = createIngredient( (String) recipe.get("C2"));
-            C3 = createIngredient( (String) recipe.get("C3"));
+            A1 = Ingredient.createIngredient( (String) recipe.get("A1"));
+            A2 = Ingredient.createIngredient( (String) recipe.get("A2"));
+            A3 = Ingredient.createIngredient( (String) recipe.get("A3"));
+            B1 = Ingredient.createIngredient( (String) recipe.get("B1"));
+            B2 = Ingredient.createIngredient( (String) recipe.get("B2"));
+            B3 = Ingredient.createIngredient( (String) recipe.get("B3"));
+            C1 = Ingredient.createIngredient( (String) recipe.get("C1"));
+            C2 = Ingredient.createIngredient( (String) recipe.get("C2"));
+            C3 = Ingredient.createIngredient( (String) recipe.get("C3"));
         }
 
         Recipe itemRecipe = new Recipe(A1, A2, A3, B1, B2, B3, C1, C2, C3);
@@ -304,54 +290,8 @@ public class ItemInfo {
             }
         }
 
-        instaBuyTotalCraftCostLabel.setText(String.valueOf(totalRawCraftCostInstaBuy));
+        instaBuyTotalCraftCostLabel.setText(String.valueOf(new BigDecimal(totalRawCraftCostInstaBuy).setScale(2, RoundingMode.HALF_EVEN)));
         buyOrderTotalCraftCostLabel.setText(String.valueOf(new BigDecimal(totalRawCraftCostBuyOrder).setScale(2, RoundingMode.HALF_EVEN)));
-    }
-
-    private Ingredient createIngredient(String name) {
-        if (name.isEmpty()) {
-            return null;
-        }
-        String[] splitName = name.split(":");
-        JSONObject rawProducts = (JSONObject) bazaarObject.get("products");
-        JSONObject itemData = (JSONObject) rawProducts.get(splitName[0]);
-        JSONObject jsonQuickStatus = (JSONObject) itemData.get("quick_status");
-        QuickStatus quickStatus = QuickStatus.createQuickStatus(jsonQuickStatus);
-
-        String id = splitName[0];
-        int number = Integer.parseInt(splitName[1]);
-        double instaBuyPrice = quickStatus.buyPrice * number;
-        double buyOrderPrice = quickStatus.sellPrice * number;
-        return new Ingredient(id, number, instaBuyPrice, buyOrderPrice);
-    }
-
-    private void openPopup(String message) {
-        Stage popup = new Stage();
-        popup.setTitle("Error");
-
-        Label messageLabel = new Label(message);
-        messageLabel.setStyle("-fx-font-size: 16px; -fx-text-fill: #00FFCC;");
-
-        Button closeButton = new Button("Close");
-        closeButton.setOnAction(e -> popup.close());
-        closeButton.setStyle(
-                "-fx-background-color: #0D1B2A; " +
-                        "-fx-text-fill: black; " +
-                        "-fx-font-weight: bold; " +
-                        "-fx-background-radius: 10; " +
-                        "-fx-padding: 8 16 8 16;"
-        );
-
-        VBox popupLayout = new VBox(20); // spacing between elements
-        popupLayout.setAlignment(Pos.CENTER);
-        popupLayout.setPadding(new Insets(20, 0, 0, 0));
-        popupLayout.setStyle("-fx-background-color: #0D1B2A; -fx-border-radius: 10; -fx-background-radius: 10;");
-
-        popupLayout.getChildren().addAll(messageLabel, closeButton);
-
-        Scene popupScene = new Scene(popupLayout, 300, 200);
-        popup.setScene(popupScene);
-        popup.show();
     }
 
     private void showGraph(String selection) {
@@ -360,7 +300,7 @@ public class ItemInfo {
         LocalDate date = LocalDate.now();
 
         if (currentItem == null) {
-            openPopup("Please select a item");
+            Screen.openPopup("Please select a item");
             return;
         }
 
@@ -373,9 +313,35 @@ public class ItemInfo {
         switch(selectedItem) {
             case "Day":
                 for (Item item : items) {
-                    if (currentItem.name.equals(item.name)) {
-                        for (ItemData dataDate : item.itemData) {
-                            if (dataDate.date.toLocalDate().toString().equals(date.toString())) {
+                    if (currentItem.getName().equals(item.getName())) {
+                        for (ItemData dataDate : item.getItemData()) {
+                            if (dataDate.getDate().toLocalDate().toString().equals(date.toString())) {
+                                itemData.add(dataDate);
+                            }
+                        }
+                    }
+                }
+                break;
+
+            case "Week":
+                for (Item item : items) {
+                    if (currentItem.getName().equals(item.getName())) {
+                        for (ItemData dataDate : item.getItemData()) {
+                            for (int i = 0; i < 7; i++) {
+                                if (dataDate.getDate().toLocalDate().toString().equals(date.plusDays(i).toString())) {
+                                    itemData.add(dataDate);
+                                }
+                            }
+                        }
+                    }
+                }
+                break;
+
+            case "Month":
+                for (Item item : items) {
+                    if (currentItem.getName().equals(item.getName())) {
+                        for (ItemData dataDate : item.getItemData()) {
+                            if (dataDate.getDate().toLocalDate().getMonth().toString().equals(date.getMonth().toString())) {
                                 itemData.add(dataDate);
                             }
                         }
@@ -385,181 +351,36 @@ public class ItemInfo {
 
             case "Always":
                 for (Item item : items) {
-                    if (currentItem.name.equals(item.name)) {
-                        itemData.addAll(item.itemData);
+                    if (currentItem.getName().equals(item.getName())) {
+                        itemData.addAll(item.getItemData());
                     }
                 }
-                firstDate = itemData.getFirst().date.toLocalDate();
+                firstDate = itemData.getFirst().getDate().toLocalDate();
                 for (ItemData data : itemData) {
-                    pass = !data.date.toLocalDate().equals(firstDate);
+                    pass = !data.getDate().toLocalDate().equals(firstDate);
                 }
+                break;
 
         }
+        if (itemData.isEmpty() || itemData.size() == 1) {
+            pass = false;
+        }
+
         if (pass) {
             if (selection.equals("price")) {
-                createChart(createDataset(itemData, selectedItem), currentItem.toString());
+                DefaultCategoryDataset datasetPrice = DatasetHandler.createDataset(itemData, selectedItem, (ds, data, key) -> {
+                    ds.addValue(data.getBuyPrice(), "Buy", key);
+                    ds.addValue(data.getSellPrice(), "Sell", key);
+                });
+                Screen.createChart(datasetPrice, currentItem.toString());
             } else if (selection.equals("elo")) {
-                createChart(createDatasetElo(itemData, selectedItem), currentItem.toString());
+                DefaultCategoryDataset datasetElo = DatasetHandler.createDataset(itemData, selectedItem, (ds, data, key) -> {
+                    ds.addValue(data.getElo(), "Elo", key);
+                });
+                Screen.createChart(datasetElo, currentItem.toString());
             }
         } else {
-            openPopup("Not enough data");
-        }
-    }
-
-    public void createChart(DefaultCategoryDataset dataset, String title) {
-        Color TRADER_BACKGROUND_DARK = new Color(0x0D1B2A); // Root pane background
-        Color TRADER_BACKGROUND_SECTION = new Color(0x102030); // Info section box background
-        Color TRADER_TEXT_PRIMARY = new Color(0xD0E8F0);       // data-value-label
-        Color TRADER_TEXT_SECONDARY = new Color(0xA0BCC8);     // data-label
-        Color TRADER_ACCENT_TEAL = new Color(0x33FFC7);        // important-value / bright teal
-        Color TRADER_GRIDLINE_BORDER = new Color(0x2A4A68);    // Subtle border / gridline
-        Color TRADER_ACCENT_SECONDARY_LINE = new Color(0x50A0B8); // A desaturated blue/teal
-        Font CHART_TITLE_FONT = new Font("Roboto", Font.BOLD, 16); // Or "Arial"
-        Font AXIS_LABEL_FONT = new Font("Roboto", Font.PLAIN, 12);
-        Font AXIS_TICK_LABEL_FONT = new Font("Roboto", Font.PLAIN, 10);
-
-        SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Line Chart - " + title);
-            frame.getContentPane().setBackground(TRADER_BACKGROUND_DARK); // Match main app background
-
-            JFreeChart chart = ChartFactory.createLineChart(
-                    title,      // Chart title
-                    "Date",     // Domain axis label
-                    "Coins",    // Range axis label
-                    dataset
-            );
-
-            chart.setBackgroundPaint(TRADER_BACKGROUND_SECTION); // Chart background slightly lighter
-            if (chart.getTitle() != null) {
-                chart.getTitle().setPaint(TRADER_ACCENT_TEAL); // Title text in accent teal
-                chart.getTitle().setFont(CHART_TITLE_FONT);
-            }
-
-            CategoryPlot plot = chart.getCategoryPlot();
-            plot.setBackgroundPaint(TRADER_BACKGROUND_SECTION); // Plot area background
-            plot.setDomainGridlinePaint(TRADER_GRIDLINE_BORDER);
-            plot.setRangeGridlinePaint(TRADER_GRIDLINE_BORDER);
-            plot.setOutlinePaint(TRADER_GRIDLINE_BORDER.darker()); // Darker outline
-
-            NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
-            rangeAxis.setTickLabelPaint(TRADER_TEXT_SECONDARY);
-            rangeAxis.setTickLabelFont(AXIS_TICK_LABEL_FONT);
-            rangeAxis.setLabelPaint(TRADER_TEXT_PRIMARY);
-            rangeAxis.setLabelFont(AXIS_LABEL_FONT);
-
-            CategoryAxis domainAxis = plot.getDomainAxis();
-            domainAxis.setTickLabelPaint(TRADER_TEXT_SECONDARY);
-            domainAxis.setTickLabelFont(AXIS_TICK_LABEL_FONT);
-            domainAxis.setLabelPaint(TRADER_TEXT_PRIMARY);
-            domainAxis.setLabelFont(AXIS_LABEL_FONT);
-
-            LineAndShapeRenderer renderer = (LineAndShapeRenderer) plot.getRenderer();
-
-            Color[] seriesColors = {
-                    TRADER_ACCENT_TEAL,             // Primary series color
-                    TRADER_ACCENT_SECONDARY_LINE,   // Secondary if needed, or another distinct color
-                    new Color(0xFF8C00)             // Example: Dark Orange for a third distinct series
-            };
-
-            for (int i = 0; i < dataset.getRowCount(); i++) {
-                Color currentColor = seriesColors[i % seriesColors.length]; // Cycle through defined colors
-                renderer.setSeriesPaint(i, currentColor);
-                renderer.setSeriesStroke(i, new BasicStroke(2.0f)); // Slightly thinner for cleaner look
-                renderer.setSeriesShapesVisible(i, true);
-                renderer.setSeriesShape(i, new Ellipse2D.Double(-3.0, -3.0, 6.0, 6.0)); // Slightly smaller shapes
-            }
-            renderer.setDrawOutlines(true); // For shapes
-
-            plot.setRenderer(renderer);
-
-            double min = Double.MAX_VALUE;
-            double max = Double.MIN_VALUE;
-            for (int row = 0; row < dataset.getRowCount(); row++) {
-                for (int col = 0; col < dataset.getColumnCount(); col++) {
-                    Number value = dataset.getValue(row, col);
-                    if (value != null) {
-                        double v = value.doubleValue();
-                        if (v < min) min = v;
-                        if (v > max) max = v;
-                    }
-                }
-            }
-            if (min != Double.MAX_VALUE && max != Double.MIN_VALUE) { // Ensure data was found
-                double margin = (max - min) == 0 ? Math.abs(max * 0.1) + 1 : (max - min) * 0.10; // Handle case where max == min
-                if (margin == 0 && max == 0) margin = 1; // Handle case where all values are 0
-                else if (margin == 0) margin = Math.abs(max*0.1) +1;
-
-
-                rangeAxis.setRange(min - margin, max + margin);
-            }
-
-
-            ChartPanel chartPanel = new ChartPanel(chart);
-            chartPanel.setPreferredSize(new Dimension(800, 450)); // Slightly larger for better viewing
-            chartPanel.setBackground(TRADER_BACKGROUND_DARK); // Match JFrame content pane
-
-            chartPanel.setMouseWheelEnabled(true); // Optional: enable mouse wheel zooming
-
-            frame.add(chartPanel);
-            frame.pack();
-            frame.setLocationRelativeTo(null);
-            frame.setVisible(true);
-        });
-    }
-
-    private DefaultCategoryDataset createDataset(ArrayList<ItemData> itemsData, String param) {
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        String columnKey;
-
-        for (ItemData itemData : itemsData) {
-            switch (param) {
-                case "Day":
-                    columnKey = String.valueOf(itemData.date.toLocalTime().getHour());
-                    break;
-
-                default:
-                    columnKey = itemData.date.toLocalDate().toString();
-                    break;
-            }
-            dataset.addValue(itemData.buyPrice, "Buy", columnKey);
-            dataset.addValue(itemData.sellPrice, "Sell", columnKey);
-        }
-
-        return dataset;
-    }
-
-    private DefaultCategoryDataset createDatasetElo(ArrayList<ItemData> itemsData, String param) {
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-
-        String columnKey;
-
-        for (ItemData itemData : itemsData) {
-            switch (param) {
-                case "Day":
-                    columnKey = String.valueOf(itemData.date.toLocalTime().getHour());
-                    break;
-
-                default:
-                    columnKey = itemData.date.toLocalDate().toString();
-                    break;
-            }
-            dataset.addValue(itemData.elo, "Elo", columnKey);
-        }
-
-        return dataset;
-    }
-
-    private JSONObject loadJsonObject(String resourcePath) {
-        InputStream inputStream = Bazaar.class.getResourceAsStream(resourcePath);
-        try {
-            assert inputStream != null;
-            try (Reader reader = new InputStreamReader(inputStream)) {
-                return (JSONObject) Instance.parser.parse(reader);
-            }
-        } catch (Exception e) {
-            System.err.println("ERROR: Could not parse JSON from resource '" + resourcePath + "'. Details: " + e.getMessage());
-            e.printStackTrace();
-            return new JSONObject();
+            Screen.openPopup("Not enough data");
         }
     }
 }

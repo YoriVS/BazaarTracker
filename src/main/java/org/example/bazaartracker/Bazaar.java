@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Bazaar extends Application {
-    static Stage currentStage;
+    public static Stage currentStage;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -42,12 +42,9 @@ public class Bazaar extends Application {
         stage.show();
     }
 
+    /// starts the app
     public static void main(String[] args) {
         launch();
-    }
-
-    public static void loadingDone() throws IOException {
-        Screen.changeScreen("bazaar-menu");
     }
 
 
