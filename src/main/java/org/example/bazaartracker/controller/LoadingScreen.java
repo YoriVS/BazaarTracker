@@ -52,7 +52,7 @@ public class LoadingScreen {
                 }
 
                 sortedItems.addAll(items);
-                sortedItems.sort((p1, p2) -> Double.compare(p2.getQuickStatus().elo, p1.getQuickStatus().elo));
+                sortedItems.sort((p1, p2) -> Double.compare(p2.getQuickStatus().getELO(), p1.getQuickStatus().getELO()));
                 return null;
             }
 

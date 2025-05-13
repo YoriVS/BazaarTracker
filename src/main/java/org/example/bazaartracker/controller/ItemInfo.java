@@ -111,14 +111,14 @@ public class ItemInfo {
         graphTimeRangeChoiceBox.getItems().add("Month");
         graphTimeRangeChoiceBox.getItems().add("Always");
         itemNameLabel.setText(currentItem.toString());
-        buyPriceLabel.setText(currentItem.getQuickStatus().getBuyPrice() + "$");
-        buyOrdersLabel.setText(currentItem.getQuickStatus().getBuyOrders() + "");
-        buyMovingWeekLabel.setText(currentItem.getQuickStatus().getBuyMovingWeek() + "");
-        sellPriceLabel.setText(currentItem.getQuickStatus().getSellPrice() + "$");
-        sellOrdersLabel.setText(currentItem.getQuickStatus().getSellOrders() + "");
-        sellMovingWeekLabel.setText(currentItem.getQuickStatus().getSellMovingWeek() + "");
-        profitLabel.setText(currentItem.getQuickStatus().getProfit() + "$");
-        eloLabel.setText(currentItem.getQuickStatus().getELO() + "");
+        buyPriceLabel.setText(Screen.createPrettyNumber(currentItem.getQuickStatus().getBuyPrice()) + "$");
+        buyOrdersLabel.setText(Screen.createPrettyNumber(currentItem.getQuickStatus().getBuyOrders()));
+        buyMovingWeekLabel.setText(Screen.createPrettyNumber(currentItem.getQuickStatus().getBuyMovingWeek()));
+        sellPriceLabel.setText(Screen.createPrettyNumber(currentItem.getQuickStatus().getSellPrice()) + "$");
+        sellOrdersLabel.setText(Screen.createPrettyNumber(currentItem.getQuickStatus().getSellOrders()));
+        sellMovingWeekLabel.setText(Screen.createPrettyNumber(currentItem.getQuickStatus().getSellMovingWeek()));
+        profitLabel.setText(Screen.createPrettyNumber(currentItem.getQuickStatus().getProfit()) + "$");
+        eloLabel.setText(Screen.createPrettyNumber(currentItem.getQuickStatus().getELO()));
         craftFlipCheckBox.setSelected(false);
     }
 

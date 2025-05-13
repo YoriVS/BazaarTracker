@@ -69,8 +69,8 @@ public class Ingredient {
 
         String id = splitName[0];
         int number = Integer.parseInt(splitName[1]);
-        double instaBuyPrice = quickStatus.buyPrice * number;
-        double buyOrderPrice = quickStatus.sellPrice * number;
+        double instaBuyPrice = quickStatus.getBuyPrice() * number;
+        double buyOrderPrice = quickStatus.getSellPrice() * number;
         return new Ingredient(id, number, instaBuyPrice, buyOrderPrice);
     }
 
