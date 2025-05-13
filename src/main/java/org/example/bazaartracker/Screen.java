@@ -25,6 +25,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Objects;
 
 import static org.example.bazaartracker.Bazaar.currentStage;
@@ -184,5 +186,77 @@ public class Screen {
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
         });
+    }
+
+    public static double createNumberBasedOnLetter(String numberWithLetter) {
+        StringBuilder sb = new StringBuilder(numberWithLetter);
+        String zeroToAdd = "";
+        String letter = String.valueOf(sb.charAt(sb.length() -1));
+
+        letter = letter.toLowerCase();
+        zeroToAdd = switch (letter) {
+            case "k" -> "000";
+            case "m" -> "000000";
+            case "b" -> "000000000";
+            default -> zeroToAdd;
+        };
+
+        sb.deleteCharAt(sb.length() - 1);
+
+        return Double.parseDouble(sb +  zeroToAdd);
+    }
+
+    public static String createPrettyNumber(double numberWithZero) {
+        String[] splitNumber = String.valueOf(numberWithZero).split("");
+        boolean powerNumber = false;
+
+        for (String s : splitNumber) {
+            if (s.equals("E")) {
+                powerNumber = true;
+                break;
+            }
+        }
+
+        if (powerNumber) {
+            String[] splitNumberPower = String.valueOf(numberWithZero).split("E");
+            double number = Double.parseDouble(splitNumberPower[0]);
+            int power = Integer.parseInt(splitNumberPower[1]);
+
+            if (power > 6 && power < 9) {
+                int zero = power - 6;
+                number *= Integer.parseInt("1" + "0".repeat(zero));
+                number = new BigDecimal(number)
+                        .setScale(3, RoundingMode.HALF_EVEN)
+                        .doubleValue();
+
+                return number + "M";
+            } else if (power >= 9 && power < 12) {
+                int zero = power - 9;
+                number *= Integer.parseInt("1" + "0".repeat(zero));
+                number = new BigDecimal(number)
+                        .setScale(3, RoundingMode.HALF_EVEN)
+                        .doubleValue();
+
+                return number + "B";
+            } else {
+                return String.valueOf(numberWithZero);
+            }
+        } else {
+            int number = (int) Math.round(numberWithZero);
+            String stringNumber = String.valueOf(number);
+            StringBuilder sb = new StringBuilder(stringNumber).reverse();
+            int spaces = (int) Math.ceil((double) stringNumber.length() / 3);
+            int offset = 0;
+
+            for (int i = 1; i < spaces; i++) {
+                sb.insert((i * 3) + offset, " ");
+                offset ++;
+            }
+
+
+
+
+            return sb.reverse().toString();
+        }
     }
 }

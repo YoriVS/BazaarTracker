@@ -42,6 +42,7 @@ public class Bazaar extends Application {
         stage.show();
     }
 
+    /// starts the app
     public static void main(String[] args) {
         launch();
     }

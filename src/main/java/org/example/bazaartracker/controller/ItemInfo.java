@@ -111,14 +111,14 @@ public class ItemInfo {
         graphTimeRangeChoiceBox.getItems().add("Month");
         graphTimeRangeChoiceBox.getItems().add("Always");
         itemNameLabel.setText(currentItem.toString());
-        buyPriceLabel.setText(currentItem.getQuickStatus().buyPrice + "$");
-        buyOrdersLabel.setText(currentItem.getQuickStatus().buyOrders + "");
-        buyMovingWeekLabel.setText(currentItem.getQuickStatus().buyMovingWeek + "");
-        sellPriceLabel.setText(currentItem.getQuickStatus().sellPrice + "$");
-        sellOrdersLabel.setText(currentItem.getQuickStatus().sellOrders + "");
-        sellMovingWeekLabel.setText(currentItem.getQuickStatus().sellMovingWeek + "");
-        profitLabel.setText(currentItem.getQuickStatus().profit + "$");
-        eloLabel.setText(currentItem.getQuickStatus().elo + "");
+        buyPriceLabel.setText(currentItem.getQuickStatus().getBuyPrice() + "$");
+        buyOrdersLabel.setText(currentItem.getQuickStatus().getBuyOrders() + "");
+        buyMovingWeekLabel.setText(currentItem.getQuickStatus().getBuyMovingWeek() + "");
+        sellPriceLabel.setText(currentItem.getQuickStatus().getSellPrice() + "$");
+        sellOrdersLabel.setText(currentItem.getQuickStatus().getSellOrders() + "");
+        sellMovingWeekLabel.setText(currentItem.getQuickStatus().getSellMovingWeek() + "");
+        profitLabel.setText(currentItem.getQuickStatus().getProfit() + "$");
+        eloLabel.setText(currentItem.getQuickStatus().getELO() + "");
         craftFlipCheckBox.setSelected(false);
     }
 
@@ -134,10 +134,10 @@ public class ItemInfo {
         }
 
         if (!craftFlipCheckBox.isSelected()) {
-            profit = currentItem.getQuickStatus().profit;
-            cost = currentItem.getQuickStatus().sellPrice;
+            profit = currentItem.getQuickStatus().getProfit();
+            cost = currentItem.getQuickStatus().getSellPrice();
         } else {
-            profit = currentItem.getQuickStatus().buyPrice - Double.parseDouble(buyOrderTotalCraftCostLabel.getText());
+            profit = currentItem.getQuickStatus().getBuyPrice() - Double.parseDouble(buyOrderTotalCraftCostLabel.getText());
             cost = Double.parseDouble(buyOrderTotalCraftCostLabel.getText());
         }
 
@@ -148,7 +148,7 @@ public class ItemInfo {
                     .doubleValue();
 
         } else {
-            double totalAmount = BigDecimal.valueOf(Math.ceil(createNumberBasedOnLetter(moneyToInvestTextField.getText()) / cost))
+            double totalAmount = BigDecimal.valueOf(Math.ceil(Screen.createNumberBasedOnLetter(moneyToInvestTextField.getText()) / cost))
                     .setScale(2, RoundingMode.HALF_EVEN)
                     .doubleValue();
             totalProfit = BigDecimal.valueOf(profit * totalAmount)
@@ -162,8 +162,8 @@ public class ItemInfo {
                 .setScale(2, RoundingMode.HALF_EVEN)
                 .doubleValue();
 
-        bulkTotalProfitLabel.setText("Total Profit for Amount: " + (createPrettyNumber(totalProfit) + "$"));
-        moneyToInvestTextField.setText(createPrettyNumber(totalCost));
+        bulkTotalProfitLabel.setText("Total Profit for Amount: " + (Screen.createPrettyNumber(totalProfit) + "$"));
+        moneyToInvestTextField.setText(Screen.createPrettyNumber(totalCost));
     }
 
     @FXML
@@ -381,78 +381,6 @@ public class ItemInfo {
             }
         } else {
             Screen.openPopup("Not enough data");
-        }
-    }
-
-    private double createNumberBasedOnLetter(String numberWithLetter) {
-        StringBuilder sb = new StringBuilder(numberWithLetter);
-        String zeroToAdd = "";
-        String letter = String.valueOf(sb.charAt(sb.length() -1));
-
-        letter = letter.toLowerCase();
-        zeroToAdd = switch (letter) {
-            case "k" -> "000";
-            case "m" -> "000000";
-            case "b" -> "000000000";
-            default -> zeroToAdd;
-        };
-
-        sb.deleteCharAt(sb.length() - 1);
-
-        return Double.parseDouble(sb +  zeroToAdd);
-    }
-
-    private String createPrettyNumber(double numberWithZero) {
-        String[] splitNumber = String.valueOf(numberWithZero).split("");
-        boolean powerNumber = false;
-
-        for (String s : splitNumber) {
-            if (s.equals("E")) {
-                powerNumber = true;
-                break;
-            }
-        }
-
-        if (powerNumber) {
-            String[] splitNumberPower = String.valueOf(numberWithZero).split("E");
-            double number = Double.parseDouble(splitNumberPower[0]);
-            int power = Integer.parseInt(splitNumberPower[1]);
-
-            if (power > 6 && power < 9) {
-                int zero = power - 6;
-                number *= Integer.parseInt("1" + "0".repeat(zero));
-                number = new BigDecimal(number)
-                        .setScale(3, RoundingMode.HALF_EVEN)
-                        .doubleValue();
-
-                return number + "M";
-            } else if (power >= 9 && power < 12) {
-                int zero = power - 9;
-                number *= Integer.parseInt("1" + "0".repeat(zero));
-                number = new BigDecimal(number)
-                        .setScale(3, RoundingMode.HALF_EVEN)
-                        .doubleValue();
-
-                return number + "B";
-            } else {
-                return String.valueOf(numberWithZero);
-            }
-        } else {
-            int number = (int) Math.round(numberWithZero);
-            String stringNumber = String.valueOf(number);
-            StringBuilder sb = new StringBuilder(stringNumber).reverse();
-            int spaces = (int) Math.ceil((double) stringNumber.length() / 3);
-            int offset = 0;
-
-            for (int i = 1; i < spaces; i++) {
-                sb.insert((i * 3) + offset, " ");
-                offset ++;
-            }
-
-
-
-
-            return sb.reverse().toString();
         }
     }
 }

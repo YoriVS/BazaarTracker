@@ -6,17 +6,17 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class QuickStatus {
-    public String productId;
-    public double sellPrice;
-    public int sellVolume;
-    public int sellMovingWeek;
-    public int sellOrders;
-    public double buyPrice;
-    public int buyVolume;
-    public int buyMovingWeek;
-    public int buyOrders;
-    public int elo;
-    public double profit;
+    private final String productId;
+    private final double sellPrice;
+    private final int sellVolume;
+    private final int sellMovingWeek;
+    private final int sellOrders;
+    private final double buyPrice;
+    private final int buyVolume;
+    private final int buyMovingWeek;
+    private final int buyOrders;
+    private final int elo;
+    private final double profit;
 
     public QuickStatus(String productId, double sellPrice, int sellVolume, int sellMovingWeek, int sellOrders, double buyPrice, int buyVolume, int buyMovingWeek, int buyOrders) {
         this.productId = productId;
@@ -62,4 +62,47 @@ public class QuickStatus {
         return new QuickStatus(productId, sellPrice, sellVolume, sellMovingWeek, sellOrders, buyPrice, buyVolume, buyMovingWeek, buyOrders);
     }
 
+    public String getProductId() {
+        return productId;
+    }
+
+    public double getSellPrice() {
+        return sellPrice;
+    }
+
+    public int getSellVolume() {
+        return sellVolume;
+    }
+
+    public int getSellMovingWeek() {
+        return sellMovingWeek;
+    }
+
+    public int getSellOrders() {
+        return sellOrders;
+    }
+
+    public double getBuyPrice() {
+        return buyPrice;
+    }
+
+    public int getBuyVolume() {
+        return buyVolume;
+    }
+
+    public int getBuyMovingWeek() {
+        return buyMovingWeek;
+    }
+
+    public int getBuyOrders() {
+        return buyOrders;
+    }
+
+    public int getELO() {
+        return elo;
+    }
+
+    public double getProfit() {
+        return profit;
+    }
 }

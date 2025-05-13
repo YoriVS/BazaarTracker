@@ -57,14 +57,17 @@ public class MenuController {
     private void showItemStats(Item item) {
         item.setItemData(JSONHandler.getItemDataFromJson(item.getName() + ".json"));
         itemName.setText(item.toString());
-        buyPrice.setText(item.getQuickStatus().buyPrice + "$");
-        buyMovingWeek.setText(String.valueOf(item.getQuickStatus().buyMovingWeek));
-        buyOrder.setText(String.valueOf(item.getQuickStatus().buyOrders));
-        sellPrice.setText(item.getQuickStatus().sellPrice + "$");
-        sellMovingWeek.setText(String.valueOf(item.getQuickStatus().sellMovingWeek));
-        sellOrder.setText(String.valueOf(item.getQuickStatus().sellOrders));
-        elo.setText(String.valueOf(item.getQuickStatus().elo));
-        profit.setText(String.valueOf(BigDecimal.valueOf(item.getQuickStatus().buyPrice - item.getQuickStatus().sellPrice).setScale(2, RoundingMode.HALF_EVEN).doubleValue()));
+        buyPrice.setText(item.getQuickStatus().getBuyPrice() + "$");
+        buyMovingWeek.setText(String.valueOf(item.getQuickStatus().getBuyMovingWeek()));
+        buyOrder.setText(String.valueOf(item.getQuickStatus().getBuyOrders()));
+        sellPrice.setText(item.getQuickStatus().getSellPrice() + "$");
+        sellMovingWeek.setText(String.valueOf(item.getQuickStatus().getSellMovingWeek()));
+        sellOrder.setText(String.valueOf(item.getQuickStatus().getSellOrders()));
+        elo.setText(String.valueOf(item.getQuickStatus().getELO()));
+        profit.setText(String.valueOf(
+                BigDecimal.valueOf(item.getQuickStatus().getBuyPrice() - item.getQuickStatus().getSellPrice())
+                .setScale(2, RoundingMode.HALF_EVEN)
+                .doubleValue()));
     }
 
     @FXML
